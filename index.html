@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codelab Compass — arma tu workshop GDG</title>
+<meta name="description" content="Responde unas preguntas y sal con una agenda de taller de 2 horas o menos, hecha con codelabs oficiales de Google, lista para tu calendario.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;500;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF; --surf:#F6F8FC; --surf2:#EEF2F8; --line:#DCE2EB;
+  --ink:#1B1C1D; --ink2:#5F6672; --ink3:#8A929E;
+  --blue:#0B57D0; --blue-c:#D3E3FD; --blue-on:#041E49;
+  --green:#146C2E; --green-c:#C4EED0; --green-on:#072711;
+  --yellow:#8F6600; --yellow-c:#FDE293; --yellow-on:#3A2A00;
+  --red:#B3261E; --red-c:#F9DEDC; --red-on:#410E0B;
+  --teal:#00687B; --teal-c:#BEE9F3;
+  --sans:Roboto,"Helvetica Neue",Arial,sans-serif;
+  --code:"Google Sans Code",ui-monospace,SFMono-Regular,monospace;
+  --r-lg:28px; --r-md:20px; --r-sm:14px;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#121316; --surf:#1B1E22; --surf2:#23272C; --line:#343A41;
+  --ink:#E6E8EB; --ink2:#A7AEB8; --ink3:#79818C;
+  --blue:#A8C7FA; --blue-c:#0842A0; --blue-on:#D3E3FD;
+  --green:#6DD58C; --green-c:#0A5222; --green-on:#C4EED0;
+  --yellow:#F5C349; --yellow-c:#6B4E00; --yellow-on:#FDE293;
+  --red:#F2B8B5; --red-c:#8C1D18; --red-on:#F9DEDC;
+  --teal:#7AD4E8; --teal-c:#004E5C;
+}}
+:root[data-theme="dark"]{
+  --bg:#121316; --surf:#1B1E22; --surf2:#23272C; --line:#343A41;
+  --ink:#E6E8EB; --ink2:#A7AEB8; --ink3:#79818C;
+  --blue:#A8C7FA; --blue-c:#0842A0; --blue-on:#D3E3FD;
+  --green:#6DD58C; --green-c:#0A5222; --green-on:#C4EED0;
+  --yellow:#F5C349; --yellow-c:#6B4E00; --yellow-on:#FDE293;
+  --red:#F2B8B5; --red-c:#8C1D18; --red-on:#F9DEDC;
+  --teal:#7AD4E8; --teal-c:#004E5C;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+  font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;border:none;background:none;cursor:pointer}
+a{color:var(--blue)}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* ---------- top bar ---------- */
+.top{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:12px;padding:12px 20px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:17px;letter-spacing:-.01em}
+.logo em{font-style:normal;font-size:20px}
+.top .sp{flex:1}
+.tb{font-size:14px;font-weight:500;padding:8px 14px;border-radius:999px;color:var(--ink2)}
+.tb:hover{background:var(--surf2);color:var(--ink)}
+.tb.on{background:var(--blue-c);color:var(--blue-on)}
+
+/* ---------- hero ---------- */
+.hero{padding:56px 20px 40px;text-align:center;background:
+  radial-gradient(1000px 340px at 50% -80px, var(--blue-c), transparent 70%)}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;
+  background:var(--bg);border:1px solid var(--line);padding:6px 14px;border-radius:999px;color:var(--ink2)}
+.hero h1{font-size:clamp(34px,6.2vw,60px);line-height:1.04;font-weight:900;letter-spacing:-.035em;
+  margin:20px auto 14px;max-width:16ch}
+.hero p{color:var(--ink2);font-size:clamp(16px,2vw,19px);max-width:52ch;margin:0 auto 26px}
+.stats{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.stat{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:8px 16px;
+  font-size:14px;font-weight:500;display:flex;align-items:center;gap:8px}
+.stat b{font-family:var(--code);font-weight:700}
+
+/* ---------- layout ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding:36px 20px 90px;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+@media(max-width:940px){.wrap{grid-template-columns:1fr;gap:22px}}
+
+.card{background:var(--surf);border-radius:var(--r-lg);padding:24px}
+.card.plain{background:var(--bg);border:1px solid var(--line)}
+.sec-eyebrow{font-size:13px;font-weight:500;color:var(--ink3);margin:0 0 4px}
+h2.sec{font-size:24px;font-weight:700;letter-spacing:-.02em;margin:0 0 6px}
+h3.sub{font-size:18px;font-weight:700;letter-spacing:-.015em;margin:0 0 6px}
+
+/* ---------- questions ---------- */
+.qstack{display:flex;flex-direction:column;gap:14px}
+.q{background:var(--surf);border-radius:var(--r-lg);padding:20px 22px;transition:background .15s}
+.q.done{background:transparent;border:1px solid var(--line);padding:14px 18px;
+  display:flex;align-items:center;gap:12px;cursor:pointer}
+.q.done:hover{background:var(--surf2)}
+.q.done .qt{font-size:14px;color:var(--ink3);margin:0;flex:0 0 auto;max-width:44%}
+.q.done .ans{font-size:15px;font-weight:500;margin-left:auto;text-align:right}
+.q.done .pencil{flex:0 0 auto;color:var(--ink3);font-size:14px}
+.qt{font-size:18px;font-weight:700;letter-spacing:-.01em;margin:0 0 14px;line-height:1.3}
+.qh{font-size:14px;color:var(--ink2);margin:-8px 0 14px}
+
+.pills{display:flex;flex-wrap:wrap;gap:9px}
+.pill{padding:11px 18px;border-radius:999px;background:var(--bg);border:1px solid var(--line);
+  font-size:15px;font-weight:500;transition:.12s}
+.pill:hover{border-color:var(--ink3)}
+.pill[aria-pressed="true"]{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}
+.tile{background:var(--bg);border:1px solid var(--line);border-radius:var(--r-md);
+  padding:16px 14px;text-align:left;transition:.14s;display:flex;flex-direction:column;gap:8px}
+.tile:hover{transform:translateY(-2px)}
+.tile .em{font-size:28px;line-height:1}
+.tile .nm{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.tile .ct{font-family:var(--code);font-size:12px;color:var(--ink3)}
+.tile[aria-pressed="true"]{border-width:2px;padding:15px 13px}
+.tile[data-k="android"][aria-pressed="true"]{background:var(--green-c);border-color:var(--green)}
+.tile[data-k="ai"][aria-pressed="true"]{background:var(--blue-c);border-color:var(--blue)}
+.tile[data-k="web"][aria-pressed="true"]{background:var(--red-c);border-color:var(--red)}
+.tile[data-k="firebase"][aria-pressed="true"]{background:var(--yellow-c);border-color:var(--yellow)}
+.tile[data-k="flutter"][aria-pressed="true"]{background:var(--teal-c);border-color:var(--teal)}
+
+.orline{display:flex;align-items:center;gap:12px;margin:18px 0 12px;color:var(--ink3);font-size:13px}
+.orline::before,.orline::after{content:"";height:1px;background:var(--line);flex:1}
+.ideain{display:flex;gap:8px;align-items:stretch}
+.ideain .inp{flex:1}
+.ichips{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
+.ichip{display:inline-flex;align-items:center;gap:9px;background:var(--blue-c);color:var(--blue-on);
+  border-radius:999px;padding:7px 7px 7px 15px;font-size:14px;font-weight:500}
+.ichip .n{font-family:var(--code);font-size:11px;opacity:.7}
+.ichip.zero{background:var(--yellow-c);color:var(--yellow-on)}
+.ichip button{width:21px;height:21px;border-radius:50%;font-size:11px;line-height:1;
+  display:grid;place-items:center;background:rgba(0,0,0,.13);color:inherit}
+.ichip button:hover{background:rgba(0,0,0,.26)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.inp{font:inherit;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:var(--r-sm);
+  background:var(--bg);color:var(--ink);min-width:0;width:100%}
+textarea.inp{resize:vertical;min-height:84px}
+.btn{padding:12px 24px;border-radius:999px;background:var(--blue);color:#fff;font-weight:700;font-size:15px}
+:root[data-theme="dark"] .btn,:root[data-theme="dark"] .pill[aria-pressed="true"]{color:#041E49}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn,
+  :root:not([data-theme="light"]) .pill[aria-pressed="true"]{color:#041E49}}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.tonal{background:var(--surf2);color:var(--ink);font-weight:500}
+.btn.out{background:transparent;border:1px solid var(--line);color:var(--ink);font-weight:500}
+.btn.out:hover{background:var(--surf2)}
+
+/* ---------- signal ---------- */
+.sig{display:flex;flex-direction:column;gap:0}
+.sig-row{display:flex;gap:14px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.sig-row:last-child{border-bottom:none}
+.sig-k{color:var(--ink3);flex:0 0 92px}
+.sig-v{font-weight:500;margin-left:auto;text-align:right}
+.sig-v.off{color:var(--ink3);font-weight:400}
+.count{display:flex;align-items:center;gap:14px;background:var(--blue-c);color:var(--blue-on);
+  border-radius:var(--r-md);padding:16px 18px;margin-top:16px}
+.count b{font-size:38px;font-weight:900;letter-spacing:-.04em;line-height:1;font-family:var(--code)}
+.count span{font-size:14px;line-height:1.35}
+
+/* ---------- run sheet ---------- */
+.sheet h2{font-size:26px;font-weight:900;letter-spacing:-.03em;margin:0 0 6px;line-height:1.12}
+.sheet .pitch{color:var(--ink2);font-size:15px;margin:0 0 18px}
+.sess{background:var(--surf);border-radius:var(--r-lg);padding:20px;margin-bottom:14px}
+.sess-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.sess-top h3{font-size:19px;font-weight:700;letter-spacing:-.015em;margin:0}
+.sess-when{font-family:var(--code);font-size:13px;color:var(--ink2);margin-left:auto}
+.sess-focus{color:var(--ink2);font-size:14.5px;margin:0 0 16px}
+
+.blk{display:flex;gap:14px;padding:12px 0;border-top:1px solid var(--line)}
+.blk:first-of-type{border-top:none}
+.blk .t{font-family:var(--code);font-size:13px;color:var(--ink2);flex:0 0 46px;padding-top:2px}
+.blk .body{flex:1;min-width:0}
+.blk .body h4{font-size:15.5px;font-weight:700;margin:0 0 3px;line-height:1.3}
+.blk .body h4 a{color:inherit;text-decoration:none}
+.blk .body h4 a:hover{text-decoration:underline}
+.blk .why{color:var(--ink2);font-size:13.5px;margin:0}
+.blk .tags{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-top:7px}
+.tag{font-family:var(--code);font-size:11px;padding:2px 8px;border-radius:999px;font-weight:500}
+.tag.android{background:var(--green-c);color:var(--green-on)}
+.tag.ai{background:var(--blue-c);color:var(--blue-on)}
+.tag.web{background:var(--red-c);color:var(--red-on)}
+.tag.firebase{background:var(--yellow-c);color:var(--yellow-on)}
+.tag.flutter{background:var(--teal-c);color:var(--ink)}
+.tag.dur{background:var(--surf2);color:var(--ink2)}
+.tag.part{background:transparent;border:1px solid var(--line);color:var(--ink3)}
+.rm{margin-left:auto;font-family:var(--code);font-size:11px;color:var(--ink3);padding:2px 6px;border-radius:6px}
+.rm:hover{background:var(--red-c);color:var(--red-on)}
+.blk.brk .body h4{font-weight:500;color:var(--ink3);font-size:14px}
+.check{margin-top:14px;background:var(--green-c);color:var(--green-on);border-radius:var(--r-sm);
+  padding:11px 14px;font-size:14px;font-weight:500}
+.tips{margin-top:12px;font-size:14px;color:var(--ink2)}
+.tips b{display:block;color:var(--ink);font-size:13px;margin-bottom:5px;font-weight:700}
+.tips ul{margin:0;padding-left:18px}
+.tips li{margin-bottom:4px}
+
+.notes h4{font-size:15px;font-weight:700;margin:0 0 8px}
+.notes ul{margin:0 0 18px;padding-left:20px;color:var(--ink2);font-size:14.5px}
+.notes li{margin-bottom:6px}
+
+/* ---------- export ---------- */
+.exp-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.toast{margin-top:12px;font-size:14px;color:var(--ink2);min-height:20px}
+.badge{margin-top:14px;font-size:12.5px;color:var(--ink3);font-family:var(--code)}
+
+/* ---------- misc states ---------- */
+.empty{border:2px dashed var(--line);border-radius:var(--r-lg);padding:40px 24px;text-align:center;
+  color:var(--ink3);font-size:15px}
+.empty .em{font-size:34px;display:block;margin-bottom:10px}
+.load{display:flex;gap:14px;align-items:center;background:var(--surf);border-radius:var(--r-lg);padding:24px}
+.spin{width:20px;height:20px;border:3px solid var(--line);border-top-color:var(--blue);border-radius:50%;
+  animation:sp .8s linear infinite;flex:0 0 auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+.alert{background:var(--yellow-c);color:var(--yellow-on);border-radius:var(--r-md);padding:14px 16px;
+  font-size:14px;margin-bottom:16px}
+.alert b{display:block;margin-bottom:3px}
+.alert code{font-family:var(--code);font-size:12.5px}
+
+dialog{border:none;border-radius:var(--r-lg);background:var(--bg);color:var(--ink);
+  max-width:600px;width:92vw;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.28)}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+dialog h3{font-size:21px;font-weight:700;letter-spacing:-.02em;margin:0 0 6px}
+dialog p.d{color:var(--ink2);font-size:14px;margin:0 0 18px}
+.fld{margin-bottom:14px}
+.fld label{display:block;font-size:13px;font-weight:500;color:var(--ink2);margin-bottom:6px}
+.fld .hint{font-size:12.5px;color:var(--ink3);margin-top:5px}
+dialog textarea.out{width:100%;height:44vh;font-family:var(--code);font-size:12.5px;
+  border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surf);color:var(--ink);padding:14px}
+.dlg-row{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+.status{font-size:13.5px;margin-top:10px;min-height:19px}
+.status.ok{color:var(--green)}
+.status.bad{color:var(--red)}
+
+footer{border-top:1px solid var(--line);padding:26px 20px 50px;text-align:center;
+  color:var(--ink3);font-size:13.5px}
+footer a{color:var(--ink2)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="logo"><em>🧭</em> Codelab Compass</div>
+  <div class="sp"></div>
+  <button class="tb" id="langBtn">EN</button>
+  <button class="tb" id="cfgBtn">⚙︎ <span id="cfgLbl">IA</span></button>
+  <button class="tb" id="resetBtn">Reiniciar</button>
+</header>
+
+<section class="hero">
+  <span class="eyebrow" id="eyebrow"></span>
+  <h1 id="h1"></h1>
+  <p id="heroP"></p>
+  <div class="stats" id="stats"></div>
+</section>
+
+<main class="wrap">
+  <section id="left"></section>
+  <aside id="right"></aside>
+</main>
+
+<footer>
+  <p id="foot"></p>
+</footer>
+
+<dialog id="cfgDlg">
+  <h3 id="cfgTitle"></h3>
+  <p class="d" id="cfgDesc"></p>
+  <div class="fld">
+    <label for="cfgProvider" id="lblProvider"></label>
+    <select class="inp" id="cfgProvider"></select>
+  </div>
+  <div class="fld" id="fldKey">
+    <label for="cfgKey" id="lblKey"></label>
+    <input class="inp" id="cfgKey" type="password" autocomplete="off" placeholder="AIza…">
+    <p class="hint" id="hintKey"></p>
+  </div>
+  <div class="fld" id="fldModel">
+    <label for="cfgModel" id="lblModel"></label>
+    <input class="inp" id="cfgModel" type="text" placeholder="gemini-3.6-flash">
+    <p class="hint" id="hintModel"></p>
+  </div>
+  <div class="fld" id="fldEp">
+    <label for="cfgEp" id="lblEp"></label>
+    <input class="inp" id="cfgEp" type="url" placeholder="https://tu-servicio.run.app/plan">
+    <p class="hint" id="hintEp"></p>
+  </div>
+  <div class="status" id="cfgStatus"></div>
+  <div class="dlg-row">
+    <button class="btn out" id="cfgTest"></button>
+    <button class="btn" id="cfgSave"></button>
+  </div>
+</dialog>
+
+<dialog id="txtDlg">
+  <h3 id="txtTitle"></h3>
+  <textarea class="out" id="txtBody" readonly></textarea>
+  <div class="dlg-row">
+    <button class="btn out" id="txtCopy"></button>
+    <button class="btn" id="txtClose"></button>
+  </div>
+</dialog>
+
+<script>
+"use strict";
+
+/* ═══════════════════════════════════════════════════════════
+   1 · CATÁLOGO — codelabs oficiales de Google (URLs reales)
+   ═══════════════════════════════════════════════════════════ */
+const CATALOG = [
+ {id:"compose-basics",t:{es:"Fundamentos de Jetpack Compose",en:"Jetpack Compose basics"},u:"https://developer.android.com/codelabs/jetpack-compose-basics",k:"android",lv:1,m:60,tags:["compose","kotlin","ui","declarativo"]},
+ {id:"compose-state",t:{es:"Estado en Jetpack Compose",en:"State in Jetpack Compose"},u:"https://developer.android.com/codelabs/jetpack-compose-state",k:"android",lv:1,m:60,tags:["compose","estado","state"]},
+ {id:"compose-layouts",t:{es:"Layouts en Jetpack Compose",en:"Layouts in Jetpack Compose"},u:"https://developer.android.com/codelabs/jetpack-compose-layouts",k:"android",lv:2,m:60,tags:["compose","layout","ui"]},
+ {id:"compose-theming",t:{es:"Theming en Jetpack Compose",en:"Jetpack Compose theming"},u:"https://developer.android.com/codelabs/jetpack-compose-theming",k:"android",lv:2,m:45,tags:["compose","material","diseño","design"]},
+ {id:"compose-animation",t:{es:"Animaciones en Jetpack Compose",en:"Animation in Jetpack Compose"},u:"https://developer.android.com/codelabs/jetpack-compose-animation",k:"android",lv:2,m:45,tags:["compose","animación","animation","ui"]},
+ {id:"compose-navigation",t:{es:"Navegación en Jetpack Compose",en:"Navigation in Jetpack Compose"},u:"https://developer.android.com/codelabs/jetpack-compose-navigation",k:"android",lv:2,m:60,tags:["compose","navegación","navigation"]},
+ {id:"compose-migration",t:{es:"Migrar Views a Jetpack Compose",en:"Migrating to Jetpack Compose"},u:"https://developer.android.com/codelabs/jetpack-compose-migration",k:"android",lv:3,m:60,tags:["compose","migración","legacy","interop"]},
+ {id:"compose-adaptive",t:{es:"Apps adaptativas con Compose",en:"Build adaptive apps with Compose"},u:"https://codelabs.developers.google.com/jetpack-compose-adaptability",k:"android",lv:3,m:75,tags:["compose","tablet","foldable","adaptive","responsive"]},
+ {id:"kotlin-coroutines",t:{es:"Coroutines de Kotlin en Android",en:"Kotlin coroutines on Android"},u:"https://developer.android.com/codelabs/kotlin-coroutines",k:"android",lv:2,m:60,tags:["kotlin","coroutines","async","concurrencia"]},
+ {id:"kotlin-extensions",t:{es:"Kotlin Bootcamp: funciones de extensión",en:"Kotlin bootcamp: extensions"},u:"https://developer.android.com/codelabs/kotlin-bootcamp-extensions",k:"android",lv:1,m:30,tags:["kotlin","lenguaje","language","basics"]},
+ {id:"android-room",t:{es:"Guardar datos con Room",en:"Save data in a Room database"},u:"https://developer.android.com/codelabs/kotlin-android-training-room-database",k:"android",lv:2,m:75,tags:["room","datos","data","sqlite","persistencia"]},
+ {id:"android-dagger",t:{es:"Inyección de dependencias con Dagger",en:"Using Dagger in your Android app"},u:"https://developer.android.com/codelabs/android-dagger",k:"android",lv:3,m:90,tags:["dagger","di","arquitectura","architecture"]},
+ {id:"android-first",t:{es:"Tu primera app Android",en:"Build your first Android app"},u:"https://developer.android.com/codelabs/basic-android-kotlin-training-welcome",k:"android",lv:1,m:45,tags:["intro","kotlin","primeros pasos","getting started"]},
+ {id:"android-birthday",t:{es:"App de tarjeta de cumpleaños",en:"Build a birthday card app"},u:"https://developer.android.com/codelabs/basic-android-kotlin-training-birthday-card-app",k:"android",lv:1,m:45,tags:["intro","ui","layout","kotlin"]},
+ {id:"android-getstarted",t:{es:"Empezar con Android y Kotlin",en:"Get started with Android and Kotlin"},u:"https://developer.android.com/codelabs/kotlin-android-training-get-started",k:"android",lv:1,m:40,tags:["intro","kotlin","setup","android studio"]},
+ {id:"android-activity",t:{es:"Crear una Activity",en:"Create an Activity"},u:"https://developer.android.com/codelabs/android-training-create-an-activity",k:"android",lv:1,m:40,tags:["activity","intro","android studio"]},
+ {id:"android-lifecycle",t:{es:"Ciclo de vida y estado",en:"Activity lifecycle and state"},u:"https://developer.android.com/codelabs/android-training-activity-lifecycle-and-state",k:"android",lv:1,m:45,tags:["lifecycle","ciclo de vida","estado","state"]},
+ {id:"android-recycler",t:{es:"Listas desplazables con RecyclerView",en:"Display a scrollable list"},u:"https://developer.android.com/codelabs/basic-android-kotlin-training-recyclerview-scrollable-list",k:"android",lv:1,m:60,tags:["recyclerview","listas","lists","ui"]},
+ {id:"android-grid",t:{es:"Layouts de grilla",en:"Grid layouts"},u:"https://developer.android.com/codelabs/kotlin-android-training-grid-layout",k:"android",lv:2,m:45,tags:["grid","layout","recyclerview","ui"]},
+ {id:"android-notif",t:{es:"Notificaciones en Android",en:"Notifications on Android"},u:"https://developer.android.com/codelabs/advanced-android-kotlin-training-notifications",k:"android",lv:2,m:60,tags:["notificaciones","notifications","engagement"]},
+ {id:"android-mdc",t:{es:"Material Design Components en Kotlin",en:"Material Design Components in Kotlin"},u:"https://developer.android.com/codelabs/mdc-103-kotlin",k:"android",lv:2,m:60,tags:["material","diseño","design","theming","ui"]},
+ {id:"android-canvas",t:{es:"Dibujar en Canvas",en:"Drawing on Canvas"},u:"https://developer.android.com/codelabs/advanced-android-training-create-canvas",k:"android",lv:3,m:60,tags:["canvas","gráficos","graphics","custom view"]},
+ {id:"android-customview",t:{es:"Custom View desde cero",en:"Custom View from scratch"},u:"https://developer.android.com/codelabs/advanced-android-training-custom-view-from-scratch",k:"android",lv:3,m:75,tags:["custom view","ui","gráficos","graphics"]},
+ {id:"android-anim-adv",t:{es:"Animaciones avanzadas en Android",en:"Advanced Android animations"},u:"https://developer.android.com/codelabs/advanced-android-training-animations",k:"android",lv:3,m:60,tags:["animación","animation","ui","motion"]},
+ {id:"android-login-nav",t:{es:"Login y navegación",en:"Login and navigation"},u:"https://developer.android.com/codelabs/advanced-android-kotlin-training-login-navigation",k:"android",lv:2,m:60,tags:["navigation","auth","login","navegación"]},
+ {id:"android-places",t:{es:"Places API en Android",en:"Places API on Android"},u:"https://developer.android.com/codelabs/advanced-android-training-places-api",k:"android",lv:2,m:60,tags:["mapas","maps","places","ubicación","location"]},
+ {id:"android-maps",t:{es:"Agregar un mapa a tu app Android",en:"Add a map to your Android app"},u:"https://developer.android.com/codelabs/maps-platform-101-android",k:"android",lv:1,m:60,tags:["mapas","maps","ubicación","location","geo"]},
+ {id:"android-tv",t:{es:"Android TV: Watch Next",en:"Android TV: Watch Next"},u:"https://developer.android.com/codelabs/tv-watch-next",k:"android",lv:3,m:60,tags:["tv","media","engagement"]},
+ {id:"gemini-summarize",t:{es:"Agregar Gemini a tu app Android",en:"Add Gemini to your Android app"},u:"https://developer.android.com/codelabs/gemini-summarize",k:"ai",x:["android"],lv:2,m:60,tags:["gemini","ia","ai","firebase ai logic","compose","resumen"]},
+ {id:"gemini-for-devs",t:{es:"Gemini para desarrolladores",en:"Gemini for developers"},u:"https://codelabs.developers.google.com/gemini-for-developers",k:"ai",lv:1,m:90,tags:["gemini","ia","ai","sdk","ai studio","modelos","prompting"]},
+ {id:"gemini-ext-web",t:{es:"Apps web con IA usando Firebase Extensions",en:"AI-powered web apps with Firebase Extensions"},u:"https://firebase.google.com/codelabs/gemini-api-extensions-web",k:"ai",x:["web","firebase"],lv:2,m:75,tags:["gemini","ia","ai","web","nextjs","firebase","extensions"]},
+ {id:"firebase-web-chat",t:{es:"Chat web en tiempo real con Firebase",en:"Build a real-time web chat app"},u:"https://codelabs.developers.google.com/codelabs/firebase-web/",k:"web",x:["firebase"],lv:1,m:75,tags:["firebase","web","auth","firestore","hosting","realtime"]},
+ {id:"firebase-flutter",t:{es:"Firebase para Flutter",en:"Get to know Firebase for Flutter"},u:"https://firebase.google.com/codelabs/firebase-get-to-know-flutter",k:"flutter",x:["firebase"],lv:1,m:75,tags:["flutter","firebase","firestore","auth","dart"]},
+ {id:"firebase-auth-flutter",t:{es:"Autenticación en Flutter con FirebaseUI",en:"Add auth to a Flutter app with FirebaseUI"},u:"https://firebase.google.com/codelabs/firebase-auth-in-flutter-apps",k:"flutter",x:["firebase"],lv:2,m:60,tags:["flutter","auth","firebase","login","dart"]},
+ {id:"fcm-codelabs",t:{es:"Firebase Cloud Messaging",en:"Firebase Cloud Messaging"},u:"https://firebase.google.com/docs/cloud-messaging/codelab",k:"firebase",x:["android"],lv:2,m:60,tags:["fcm","push","notificaciones","notifications","firebase"]}
+];
+
+const TRACKS = {
+  android :{em:"📱", es:"Android y Kotlin", en:"Android & Kotlin"},
+  ai      :{em:"✨", es:"IA y Gemini",      en:"AI & Gemini"},
+  web     :{em:"🌐", es:"Web",              en:"Web"},
+  flutter :{em:"🐦", es:"Flutter",          en:"Flutter"},
+  firebase:{em:"🔥", es:"Firebase",         en:"Firebase"}
+};
+
+/* Sesiones cortas: nunca más de 2 h, bloques de 45 min como techo. */
+const FORMATS = {
+  f45   :{n:1, m:45,  gap:0, brk:0},
+  f60   :{n:1, m:60,  gap:0, brk:0},
+  f90   :{n:1, m:90,  gap:0, brk:10},
+  f120  :{n:1, m:120, gap:0, brk:10},
+  s4x60 :{n:4, m:60,  gap:7, brk:0},
+  s4x90 :{n:4, m:90,  gap:7, brk:10}
+};
+const MAX_BLOCK = 45;
+const MIN_BLOCK = 15;
+
+/* ═══════════════════════════════════════════════════════════
+   2 · TEXTOS
+   ═══════════════════════════════════════════════════════════ */
+const STR = {
+es:{
+ eyebrow:"Hecho para organizadores de GDG",
+ h1:"Arma el taller. Con codelabs reales. En dos horas o menos.",
+ heroP:"Responde seis preguntas. Sale una agenda con horarios, codelabs oficiales de Google y un archivo que entra directo a tu calendario.",
+ statA:"codelabs en el catálogo", statB:"máximo por sesión", statC:"bloques de 45 min",
+ reset:"Reiniciar", ai:"IA", edit:"cambiar",
+ panelTitle:"Lo que voy entendiendo", panelEyebrow:"Perfil en vivo",
+ kLevel:"Nivel", kTracks:"Temas", kIdeas:"Tus temas", kFormat:"Duración", kSetup:"Equipos", kGoal:"Objetivo", kWhen:"Arranca",
+ off:"—",
+ count:"codelabs calzan con este perfil", count1:"codelab calza con este perfil",
+ emptyTitle:"Tu agenda aparece acá", emptyBody:"Termina las preguntas de la izquierda y la armo al toque.",
+ building:"Armando la agenda…",
+ phases:["Leyendo el perfil","Ordenando los codelabs","Calculando tiempos","Escribiendo notas para quien facilita"],
+ prereq:"Antes de empezar", tips:"Para quien facilita", risks:"Dónde se traba la gente",
+ expEyebrow:"Llévatela", expTitle:"Exporta la agenda",
+ expIcs:"Descargar .ics", expGcal:"Google Calendar", expMd:"Markdown", expCopy:"Copiar todo",
+ copied:"Copiado al portapapeles.", copyFail:"No se pudo copiar. Te abro el texto.",
+ saved:"Descarga iniciada.", gcalNote:"Se abre una pestaña por sesión.",
+ breakLabel:"Pausa", min:"min", partial:"extracto",
+ sessionWord:"Sesión", weekWord:"Semana",
+ srcRules:"Agenda armada con las reglas del catálogo (sin IA).",
+ srcGemini:"Agenda escrita por Gemini a partir del catálogo.",
+ srcProxy:"Agenda escrita por tu backend a partir del catálogo.",
+ srcClaude:"Agenda escrita por Claude a partir del catálogo.",
+ aiFailTitle:"La IA no respondió",
+ aiFailBody:"Armé la agenda con las reglas del catálogo. Sigue siendo usable. Revisa la configuración con ⚙︎.",
+ regen:"Volver a generar",
+ q:[
+  {k:"level",q:"¿Quiénes van a estar en la sala?",o:[["1","Recién empiezan"],["2","Ya programan, nuevos en el tema"],["mix","Mezcla de todo"],["3","Con experiencia"]]},
+  {k:"tracks",q:"¿Sobre qué quieren construir?",h:"Marca todo lo que aplique.",tiles:true},
+  {k:"format",q:"¿Cuánto dura?",h:"Nada pasa de 2 horas. Los bloques son de 45 minutos como máximo.",
+   o:[["f45","45 min"],["f60","1 hora"],["f90","1 h 30"],["f120","2 horas"],["s4x60","4 × 1 h, semanal"],["s4x90","4 × 1 h 30, semanal"]]},
+  {k:"setup",q:"¿Con qué llegan?",o:[["ide","Laptop con el IDE instalado"],["browser","Solo navegador"],["mixed","De todo un poco"]]},
+  {k:"goal",q:"¿Con qué se van?",o:[["ship","Con algo corriendo"],["explore","Con el panorama"],["path","Con una ruta para seguir"],["grow","Con ganas de volver"]]},
+  {k:"when",q:"¿Qué día y a qué hora arranca?",date:true},
+  {k:"notes",q:"¿Algo más que deba saber?",h:"Sponsor, sala, idioma, wifi malo, lo que sea.",text:true,skip:"Nada más"}
+ ],
+ optional:"Opcional", next:"Generar agenda", cont:"Continuar", done:"Listo",
+ orWrite:"o escribe tu propio tema", ideaPh:"RAG, Wear OS, realidad aumentada…", addIdea:"Agregar",
+ ideaNone:"sin codelabs", ideaNoneHint:"Lo dejo igual: la IA lo va a nombrar y te dirá qué preparar tú.",
+ levels:{1:"Principiantes",2:"Intermedios",3:"Avanzados",mix:"Mixto"},
+ formats:{f45:"45 min",f60:"1 hora",f90:"1 h 30",f120:"2 horas",s4x60:"4 × 1 h",s4x90:"4 × 1 h 30"},
+ setups:{ide:"IDE listo",browser:"Navegador",mixed:"Mixto"},
+ goals:{ship:"Salir con algo hecho",explore:"Explorar",path:"Ruta para seguir",grow:"Hacer comunidad"},
+ foot:"Catálogo de codelabs oficiales de Google. Proyecto de comunidad, sin afiliación con Google.",
+ /* settings */
+ cfgTitle:"Conectar la IA", cfgDesc:"Sin IA la app igual funciona: arma la agenda con las reglas del catálogo. Conéctala para que además escriba objetivos, notas de facilitación y riesgos.",
+ lblProvider:"Proveedor",
+ provAuto:"Automático (usa lo que haya)", provNone:"Sin IA — solo reglas", provGemini:"Gemini API (Google AI Studio)", provProxy:"Mi backend (Cloud Run / Functions)",
+ lblKey:"API key de Gemini", hintKey:"Se guarda solo en este navegador. En un sitio público cualquiera puede leerla desde el código: para producción usa la opción de backend.",
+ lblModel:"Modelo", hintModel:"Por ejemplo gemini-3.6-flash. Revisa los modelos vigentes en ai.google.dev.",
+ lblEp:"URL del endpoint", hintEp:"Recibe POST {prompt} y devuelve {text} o la respuesta cruda de Gemini. Ahí guardas la key del lado del servidor.",
+ cfgTest:"Probar conexión", cfgSave:"Guardar",
+ testing:"Probando…", testOk:"Conexión correcta.", testBad:"Falló: ",
+ testNone:"Sin IA seleccionada. La app usará las reglas del catálogo.",
+ needKey:"Falta la API key.", needEp:"Falta la URL del endpoint.",
+ close:"Cerrar", copy:"Copiar"
+},
+en:{
+ eyebrow:"Built for GDG organizers",
+ h1:"Plan the workshop. Real codelabs. Two hours or less.",
+ heroP:"Answer six questions. You get a timed agenda, official Google codelabs, and a file that drops straight into your calendar.",
+ statA:"codelabs in the catalog", statB:"max per session", statC:"45-minute blocks",
+ reset:"Reset", ai:"AI", edit:"change",
+ panelTitle:"What I've picked up", panelEyebrow:"Live profile",
+ kLevel:"Level", kTracks:"Topics", kIdeas:"Your topics", kFormat:"Length", kSetup:"Machines", kGoal:"Goal", kWhen:"Starts",
+ off:"—",
+ count:"codelabs fit this profile", count1:"codelab fits this profile",
+ emptyTitle:"Your agenda shows up here", emptyBody:"Finish the questions on the left and I'll build it.",
+ building:"Building the agenda…",
+ phases:["Reading the brief","Ordering the codelabs","Working out the timing","Writing facilitator notes"],
+ prereq:"Before you start", tips:"Facilitator notes", risks:"Where people get stuck",
+ expEyebrow:"Take it with you", expTitle:"Export the agenda",
+ expIcs:"Download .ics", expGcal:"Google Calendar", expMd:"Markdown", expCopy:"Copy everything",
+ copied:"Copied to clipboard.", copyFail:"Couldn't copy. Opening the text instead.",
+ saved:"Download started.", gcalNote:"Opens one tab per session.",
+ breakLabel:"Break", min:"min", partial:"excerpt",
+ sessionWord:"Session", weekWord:"Week",
+ srcRules:"Agenda assembled from catalog rules (no AI).",
+ srcGemini:"Agenda written by Gemini from the catalog.",
+ srcProxy:"Agenda written by your backend from the catalog.",
+ srcClaude:"Agenda written by Claude from the catalog.",
+ aiFailTitle:"The AI didn't answer",
+ aiFailBody:"I built the agenda from catalog rules instead. Still usable. Check the settings with ⚙︎.",
+ regen:"Generate again",
+ q:[
+  {k:"level",q:"Who's going to be in the room?",o:[["1","Complete beginners"],["2","Coders, new to this"],["mix","A bit of everything"],["3","Experienced"]]},
+  {k:"tracks",q:"What do they want to build?",h:"Pick everything that applies.",tiles:true},
+  {k:"format",q:"How long is it?",h:"Nothing runs over 2 hours. Blocks cap at 45 minutes.",
+   o:[["f45","45 min"],["f60","1 hour"],["f90","1.5 hours"],["f120","2 hours"],["s4x60","4 × 1 h, weekly"],["s4x90","4 × 1.5 h, weekly"]]},
+  {k:"setup",q:"What do they bring?",o:[["ide","Laptop with the IDE installed"],["browser","Browser only"],["mixed","A bit of everything"]]},
+  {k:"goal",q:"What do they leave with?",o:[["ship","Something running"],["explore","A map of it"],["path","A route to follow"],["grow","A reason to come back"]]},
+  {k:"when",q:"What day and time does it start?",date:true},
+  {k:"notes",q:"Anything else I should know?",h:"Sponsor, room, language, bad wifi, whatever.",text:true,skip:"Nothing else"}
+ ],
+ optional:"Optional", next:"Build the agenda", cont:"Continue", done:"Done",
+ orWrite:"or write your own topic", ideaPh:"RAG, Wear OS, augmented reality…", addIdea:"Add",
+ ideaNone:"no codelabs", ideaNoneHint:"Keeping it: the AI will name it and tell you what to prepare yourself.",
+ levels:{1:"Beginners",2:"Intermediate",3:"Advanced",mix:"Mixed"},
+ formats:{f45:"45 min",f60:"1 hour",f90:"1.5 h",f120:"2 hours",s4x60:"4 × 1 h",s4x90:"4 × 1.5 h"},
+ setups:{ide:"IDE ready",browser:"Browser",mixed:"Mixed"},
+ goals:{ship:"Ship something",explore:"Explore",path:"A route to follow",grow:"Grow the chapter"},
+ foot:"Catalog of official Google codelabs. Community project, not affiliated with Google.",
+ cfgTitle:"Connect the AI", cfgDesc:"The app works without AI: it builds the agenda from catalog rules. Connect it so it also writes objectives, facilitator notes and risks.",
+ lblProvider:"Provider",
+ provAuto:"Automatic (use whatever is there)", provNone:"No AI — rules only", provGemini:"Gemini API (Google AI Studio)", provProxy:"My backend (Cloud Run / Functions)",
+ lblKey:"Gemini API key", hintKey:"Stored in this browser only. On a public site anyone can read it from the code: use the backend option for production.",
+ lblModel:"Model", hintModel:"For example gemini-3.6-flash. Check current models at ai.google.dev.",
+ lblEp:"Endpoint URL", hintEp:"Takes POST {prompt} and returns {text} or Gemini's raw response. That's where the key lives, server-side.",
+ cfgTest:"Test connection", cfgSave:"Save",
+ testing:"Testing…", testOk:"Connection works.", testBad:"Failed: ",
+ testNone:"No AI selected. The app will use catalog rules.",
+ needKey:"Missing API key.", needEp:"Missing endpoint URL.",
+ close:"Close", copy:"Copy"
+}};
+
+/* ═══════════════════════════════════════════════════════════
+   3 · ESTADO
+   ═══════════════════════════════════════════════════════════ */
+let L = (localStorage.getItem("cc.lang") || (navigator.language||"es").slice(0,2));
+if(L !== "en") L = "es";
+let T = STR[L];
+
+const A = {level:null, tracks:[], ideas:[], format:null, setup:null, goal:null, when:null, notes:""};
+let step = 0, plan = null, phase = "intake", dropped = new Set(), lastErr = "";
+
+const CFG = Object.assign(
+  {provider:"auto", key:"", model:"gemini-3.6-flash", endpoint:""},
+  JSON.parse(localStorage.getItem("cc.cfg") || "{}")
+);
+const saveCfg = () => localStorage.setItem("cc.cfg", JSON.stringify(CFG));
+
+const $  = s => document.querySelector(s);
+const el = (tag, cls, txt) => { const n = document.createElement(tag); if(cls) n.className = cls; if(txt != null) n.textContent = txt; return n; };
+const pad = n => String(n).padStart(2,"0");
+
+/* ═══════════════════════════════════════════════════════════
+   4 · MATCHING
+   ═══════════════════════════════════════════════════════════ */
+const tracksOf = c => c.x ? [c.k].concat(c.x) : [c.k];
+const levelNum = () => A.level === "mix" ? 2 : Number(A.level || 2);
+
+const norm = t => String(t).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+const STOP = new Set(["de","del","la","el","en","para","con","un","una","los","las","que","por","sobre",
+ "como","mi","su","lo","al","the","of","for","with","and","how","to","an","in","on","my","our","it","is","a"]);
+const termsOf = t => norm(t).split(/[^a-z0-9+#.]+/).filter(w => w.length >= 2 && !STOP.has(w));
+const hayOf = c => norm([c.tags.join(" "), c.t.es, c.t.en, TRACKS[c.k].es, TRACKS[c.k].en].join(" "));
+
+/* 0 = no toca la idea; 1 = la idea calza entera */
+function ideaHit(c, idea){
+  const terms = termsOf(idea);
+  if(!terms.length) return 0;
+  const hay = hayOf(c);
+  return terms.filter(t => hay.includes(t)).length / terms.length;
+}
+const ideaHits = c => A.ideas.reduce((a, i) => a + ideaHit(c, i), 0);
+const ideaMatchCount = idea => CATALOG.filter(c => ideaHit(c, idea) > 0).length;
+const uncoveredIdeas = () => A.ideas.filter(i => ideaMatchCount(i) === 0);
+
+const keywords = () => (A.notes||"").toLowerCase().split(/[^a-z\u00e1\u00e9\u00ed\u00f3\u00fa\u00f1\u00fc0-9+#]+/i).filter(w => w.length > 3);
+
+function score(c){
+  if(dropped.has(c.id)) return -1;
+  const trackOk = A.tracks.length && tracksOf(c).some(t => A.tracks.includes(t));
+  const ih = ideaHits(c);
+  /* si el organizador filtro por algo, hay que calzar por track O por idea escrita */
+  if((A.tracks.length || A.ideas.length) && !trackOk && ih <= 0) return -1;
+
+  let s = 10 - Math.abs(c.lv - levelNum()) * 3;
+  s += Math.round(ih * 7);
+  if(A.level === "mix" && c.lv === 1) s += 2;
+  if(A.goal === "ship"   && c.m <= 60) s += 2;
+  if(A.goal === "explore"&& c.m <= 45) s += 2;
+  if(A.goal === "path"   && c.lv >= 2) s += 1;
+  if(A.setup === "browser"){
+    if(c.k === "web" || c.k === "ai") s += 3;
+    if(c.k === "android" || c.k === "flutter") s -= 4;
+  }
+  const hay = hayOf(c);
+  for(const w of keywords()) if(hay.includes(norm(w))) s += 3;
+  return s;
+}
+const matches = () => CATALOG.map(c => ({c, s:score(c)})).filter(x => x.s > 0)
+  .sort((a,b) => b.s - a.s || a.c.lv - b.c.lv || a.c.m - b.c.m).map(x => x.c);
+
+const trackCount = k => CATALOG.filter(c => tracksOf(c).includes(k)).length;
+
+/* ═══════════════════════════════════════════════════════════
+   5 · PLANIFICADOR LOCAL (siempre disponible, sin red)
+   ═══════════════════════════════════════════════════════════ */
+function localPlan(){
+  const cfg = FORMATS[A.format] || FORMATS.f90;
+  const pool = matches();
+  const sessions = [];
+  let i = 0;
+
+  for(let s = 0; s < cfg.n; s++){
+    const budget = cfg.m - cfg.brk;
+    const items = [];
+    let used = 0;
+    while(i < pool.length && used < budget){
+      const left = budget - used;
+      if(left < MIN_BLOCK) break;
+      const mins = Math.min(pool[i].m, MAX_BLOCK, left);
+      items.push({id:pool[i].id, minutes:mins, why:""});
+      used += mins; i++;
+    }
+    /* repartir el sobrante para no dejar la sesion corta */
+    let left = budget - used;
+    for(let k = items.length - 1; k >= 0 && left > 0; k--){
+      const room = MAX_BLOCK - items[k].minutes;
+      if(room <= 0) continue;
+      const add = Math.min(room, left);
+      items[k].minutes += add; left -= add;
+    }
+    if(items.length) sessions.push({
+      name:`${cfg.gap ? T.weekWord : T.sessionWord} ${s+1}`,
+      focus:"", items, facilitatorTips:[], checkpoint:""
+    });
+  }
+  const names = A.tracks.map(t => TRACKS[t][L]).concat(A.ideas).join(" + ");
+  return {title: names ? `${names} — ${T.formats[A.format]}` : "Workshop",
+          pitch:"", prereqs:[], sessions, risks:[], source:"rules"};
+}
+
+/* ═══════════════════════════════════════════════════════════
+   6 · PROMPT + PROVEEDORES DE IA
+   ═══════════════════════════════════════════════════════════ */
+function buildPrompt(){
+  const cfg = FORMATS[A.format] || FORMATS.f90;
+  const pool = matches().slice(0, 24).map(c => ({
+    id:c.id, title:c.t[L], track:TRACKS[c.k][L],
+    level:["","beginner","intermediate","advanced"][c.lv], fullMinutes:c.m, tags:c.tags.slice(0,5)
+  }));
+  const hands = cfg.m - cfg.brk;
+  const brief = [
+    `Audience level: ${T.levels[A.level] || "mixed"}`,
+    `Topics: ${A.tracks.map(t => TRACKS[t][L]).join(", ") || "open"}`,
+    A.ideas.length ? `Organizer's own topic requests, written free-hand: ${A.ideas.join("; ")}` : "",
+    uncoveredIdeas().length ? `IMPORTANT: the catalog has NO codelab for: ${uncoveredIdeas().join("; ")}. Pick the closest available codelabs, and say plainly in "risks" which requested topic is not covered and what the facilitator should prepare themselves.` : "",
+    `Format: ${cfg.n} session(s) of ${cfg.m} minutes${cfg.gap ? ", one per week" : ""}`,
+    `Machines: ${T.setups[A.setup] || "unknown"}`,
+    `Goal: ${T.goals[A.goal] || "unspecified"}`,
+    `Start: ${A.when || "unspecified"}`,
+    A.notes ? `Organizer notes: ${A.notes}` : ""
+  ].filter(Boolean).join("\n");
+
+  return `You are helping a Google Developer Group chapter organizer turn a rough idea into a runnable hands-on workshop built from official Google codelabs. These are SHORT sessions: nothing runs longer than two hours.
+
+ORGANIZER BRIEF
+${brief}
+
+AVAILABLE CODELABS — use ONLY these ids, each at most once:
+${JSON.stringify(pool)}
+
+Reply with ONLY a JSON object, no prose, no code fence, shaped exactly:
+{"title":string,"pitch":string,"prereqs":[string],"sessions":[{"name":string,"focus":string,"items":[{"id":string,"minutes":number,"why":string}],"facilitatorTips":[string],"checkpoint":string}],"risks":[string]}
+
+Hard rules:
+- Exactly ${cfg.n} session(s).
+- Each item's "minutes" is between ${MIN_BLOCK} and ${MAX_BLOCK}. Most codelabs are longer than that, so assign the slice that fits and make "why" say which part of the codelab to run.
+- Per session, item minutes sum to between ${Math.round(hands*0.8)} and ${hands}.
+- Order items so each builds on the last. The block that produces something visible on screen goes first.
+- "focus": 4-8 words naming what the session accomplishes.
+- "checkpoint": one concrete thing every attendee has working by the end.
+- "pitch": one sentence the organizer can paste on the event page.
+- "prereqs": 2-4 things attendees install or create beforehand. Be specific about what fits in a short session.
+- "risks": 2-4 things that go wrong in a room with this setup, each with the fix.
+- "facilitatorTips": 1-3 per session, about running the room, not the technology.
+- Write every string in ${L === "es" ? "Spanish" : "English"}.`;
+}
+
+function parseLoose(text){
+  const t = String(text || "").trim();
+  try{ return JSON.parse(t); }catch(e){}
+  const fence = t.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if(fence){ try{ return JSON.parse(fence[1]); }catch(e){} }
+  const a = t.search(/[[{]/), b = Math.max(t.lastIndexOf("}"), t.lastIndexOf("]"));
+  if(a >= 0 && b > a){ try{ return JSON.parse(t.slice(a, b+1)); }catch(e){} }
+  throw new Error("invalid_json");
+}
+
+async function callGemini(prompt, model, key){
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`;
+  const res = await fetch(url, {
+    method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({
+      contents:[{role:"user", parts:[{text:prompt}]}],
+      generationConfig:{responseMimeType:"application/json", temperature:0.75, maxOutputTokens:4096}
+    })
+  });
+  const body = await res.text();
+  if(!res.ok) throw new Error(`HTTP ${res.status} — ${body.slice(0,220)}`);
+  const data = JSON.parse(body);
+  const parts = data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts;
+  const text = Array.isArray(parts) ? parts.map(p => p.text || "").join("") : "";
+  if(!text) throw new Error("empty response");
+  return text;
+}
+
+async function callProxy(prompt, endpoint){
+  const res = await fetch(endpoint, {
+    method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({prompt, lang:L})
+  });
+  const body = await res.text();
+  if(!res.ok) throw new Error(`HTTP ${res.status} — ${body.slice(0,220)}`);
+  let data; try{ data = JSON.parse(body); }catch(e){ return body; }
+  if(typeof data === "string") return data;
+  if(typeof data.text === "string") return data.text;
+  const parts = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts;
+  if(Array.isArray(parts)) return parts.map(p => p.text || "").join("");
+  return JSON.stringify(data);
+}
+
+/* Devuelve el proveedor que realmente se va a usar */
+async function pickProvider(){
+  const p = CFG.provider;
+  if(p === "none") return {kind:"none"};
+  if(p === "gemini") return CFG.key ? {kind:"gemini"} : {kind:"none", reason:"needKey"};
+  if(p === "proxy")  return CFG.endpoint ? {kind:"proxy"} : {kind:"none", reason:"needEp"};
+  /* auto */
+  if(CFG.endpoint) return {kind:"proxy"};
+  if(CFG.key)      return {kind:"gemini"};
+  try{
+    if(window.claude && window.claude.use){
+      const s = await window.claude.use("sample");
+      if(s) return {kind:"claude", fn:s};
+    }
+  }catch(e){}
+  return {kind:"none"};
+}
+
+async function askAI(prompt){
+  const p = await pickProvider();
+  if(p.kind === "none") return {json:null, source:"rules"};
+  if(p.kind === "claude"){
+    const raw = await p.fn.json(prompt, {modelTier:"default", cache:{gcTime:600000}});
+    return {json:raw, source:"claude"};
+  }
+  const text = p.kind === "gemini"
+    ? await callGemini(prompt, CFG.model || "gemini-3.6-flash", CFG.key)
+    : await callProxy(prompt, CFG.endpoint);
+  return {json:parseLoose(text), source:p.kind === "gemini" ? "gemini" : "proxy"};
+}
+
+/* ═══════════════════════════════════════════════════════════
+   7 · GENERACIÓN
+   ═══════════════════════════════════════════════════════════ */
+function normalize(raw, source){
+  const ids = new Set(CATALOG.map(c => c.id));
+  const seen = new Set();
+  const cfg = FORMATS[A.format] || FORMATS.f90;
+  const sessions = (Array.isArray(raw && raw.sessions) ? raw.sessions : []).slice(0, cfg.n).map((s, n) => ({
+    name: String((s && s.name) || `${cfg.gap ? T.weekWord : T.sessionWord} ${n+1}`),
+    focus: String((s && s.focus) || ""),
+    checkpoint: String((s && s.checkpoint) || ""),
+    facilitatorTips: (Array.isArray(s && s.facilitatorTips) ? s.facilitatorTips : []).map(String).slice(0,3),
+    items: (Array.isArray(s && s.items) ? s.items : []).map(it => ({
+      id: String((it && it.id) || ""),
+      minutes: Math.max(MIN_BLOCK, Math.min(MAX_BLOCK, Math.round(Number(it && it.minutes) || 30))),
+      why: String((it && it.why) || "")
+    })).filter(it => {
+      if(!ids.has(it.id) || seen.has(it.id) || dropped.has(it.id)) return false;
+      seen.add(it.id); return true;
+    })
+  })).filter(s => s.items.length);
+
+  if(!sessions.length) return localPlan();
+
+  /* nunca exceder el presupuesto de la sesión */
+  const budget = cfg.m - cfg.brk;
+  sessions.forEach(s => {
+    let used = 0;
+    s.items = s.items.filter(it => {
+      if(used + it.minutes > budget){
+        const left = budget - used;
+        if(left >= MIN_BLOCK){ it.minutes = left; used = budget; return true; }
+        return false;
+      }
+      used += it.minutes; return true;
+    });
+  });
+
+  return {
+    title: String((raw && raw.title) || "Workshop"),
+    pitch: String((raw && raw.pitch) || ""),
+    prereqs:(Array.isArray(raw && raw.prereqs) ? raw.prereqs : []).map(String).slice(0,5),
+    risks:  (Array.isArray(raw && raw.risks)   ? raw.risks   : []).map(String).slice(0,5),
+    sessions, source
+  };
+}
+
+async function generate(){
+  phase = "building"; lastErr = ""; render();
+  let i = 0;
+  const tick = setInterval(() => {
+    const n = document.getElementById("phaseTxt");
+    if(n){ i = (i+1) % T.phases.length; n.textContent = T.phases[i]; }
+  }, 2400);
+
+  try{
+    const {json, source} = await askAI(buildPrompt());
+    clearInterval(tick);
+    plan = json ? normalize(json, source) : localPlan();
+    phase = "done";
+  }catch(e){
+    clearInterval(tick);
+    plan = localPlan();
+    lastErr = (e && (e.code || e.message)) || "error";
+    phase = "aifail";
+  }
+  render();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   8 · HORARIOS
+   ═══════════════════════════════════════════════════════════ */
+function startDate(){
+  if(A.when){ const d = new Date(A.when); if(!isNaN(d)) return d; }
+  const d = new Date(); d.setDate(d.getDate() + 14); d.setHours(18,30,0,0); return d;
+}
+
+function schedule(){
+  if(!plan) return [];
+  const cfg = FORMATS[A.format] || FORMATS.f90;
+  const base = startDate();
+  const out = [];
+
+  plan.sessions.forEach((s, si) => {
+    let cursor;
+    if(cfg.gap){ cursor = new Date(base); cursor.setDate(base.getDate() + cfg.gap * si); }
+    else if(si > 0){ cursor = new Date(out[si-1].end); cursor.setMinutes(cursor.getMinutes() + 20); }
+    else cursor = new Date(base);
+
+    const sStart = new Date(cursor);
+    const rows = [];
+    const t = new Date(cursor);
+    const half = Math.ceil(s.items.length / 2);
+
+    s.items.forEach((it, ii) => {
+      const c = CATALOG.find(x => x.id === it.id);
+      if(!c) return;
+      if(cfg.brk && ii === half && ii > 0){
+        const bs = new Date(t); t.setMinutes(t.getMinutes() + cfg.brk);
+        rows.push({kind:"break", title:T.breakLabel, minutes:cfg.brk, start:bs, end:new Date(t)});
+      }
+      const is = new Date(t); t.setMinutes(t.getMinutes() + it.minutes);
+      rows.push({kind:"lab", id:c.id, title:c.t[L], url:c.u, track:c.k, why:it.why,
+        minutes:it.minutes, partial: it.minutes < c.m, start:is, end:new Date(t)});
+    });
+    out.push({name:s.name, focus:s.focus, checkpoint:s.checkpoint, tips:s.facilitatorTips,
+      rows, start:sStart, end:new Date(t)});
+  });
+  return out;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   9 · EXPORTACIONES
+   ═══════════════════════════════════════════════════════════ */
+const fl  = d => `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
+const hm  = d => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+const esc = s => String(s).replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\r?\n/g,"\\n");
+const dateLong = d => d.toLocaleDateString(L === "es" ? "es-PE" : "en-US", {weekday:"long", day:"numeric", month:"long"});
+
+function sessionBody(s){
+  const out = [];
+  if(s.focus) out.push(s.focus);
+  if(plan.pitch) out.push(plan.pitch);
+  out.push("");
+  s.rows.forEach(r => {
+    out.push(r.kind === "break"
+      ? `${hm(r.start)}  ${T.breakLabel} (${r.minutes} ${T.min})`
+      : `${hm(r.start)}  ${r.title} · ${r.minutes} ${T.min}${r.partial ? " ("+T.partial+")" : ""}\n        ${r.url}`);
+  });
+  if(s.checkpoint) out.push("", `✓ ${s.checkpoint}`);
+  if(s.tips && s.tips.length) out.push("", `${T.tips}:`, ...s.tips.map(t => `• ${t}`));
+  if(plan.prereqs.length) out.push("", `${T.prereq}:`, ...plan.prereqs.map(t => `• ${t}`));
+  return out.join("\n").trim();
+}
+
+function toIcs(){
+  const rows = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Codelab Compass//GDG//EN","CALSCALE:GREGORIAN","METHOD:PUBLISH"];
+  schedule().forEach((s, i) => {
+    rows.push("BEGIN:VEVENT",
+      `UID:cc-${Date.now()}-${i}@codelab-compass`,
+      `DTSTAMP:${fl(new Date())}`,
+      `DTSTART:${fl(s.start)}`,
+      `DTEND:${fl(s.end)}`,
+      `SUMMARY:${esc(plan.title + " — " + s.name)}`,
+      `DESCRIPTION:${esc(sessionBody(s))}`,
+      "END:VEVENT");
+  });
+  rows.push("END:VCALENDAR");
+  return rows.map(fold).join("\r\n");
+}
+
+/* Plegado RFC 5545: nunca partir un escape \\X por la mitad */
+function fold(line){
+  if(line.length <= 72) return line;
+  const out = []; let i = 0;
+  while(i < line.length){
+    let take = Math.min(72, line.length - i);
+    let chunk = line.slice(i, i + take);
+    const trail = (chunk.match(/\\+$/) || [""])[0].length;
+    if(trail % 2 === 1 && i + take < line.length){ take--; chunk = line.slice(i, i + take); }
+    out.push(chunk); i += take;
+  }
+  return out.join("\r\n ");
+}
+
+function gcalUrl(s){
+  return "https://calendar.google.com/calendar/render?" + new URLSearchParams({
+    action:"TEMPLATE",
+    text:`${plan.title} — ${s.name}`,
+    dates:`${fl(s.start)}/${fl(s.end)}`,
+    details:sessionBody(s)
+  }).toString();
+}
+
+function toMarkdown(){
+  const o = [`# ${plan.title}`, ""];
+  if(plan.pitch) o.push(`_${plan.pitch}_`, "");
+  if(plan.prereqs.length){ o.push(`## ${T.prereq}`, ""); plan.prereqs.forEach(p => o.push(`- [ ] ${p}`)); o.push(""); }
+  schedule().forEach(s => {
+    o.push(`## ${s.name} — ${dateLong(s.start)}, ${hm(s.start)}–${hm(s.end)}`, "");
+    if(s.focus) o.push(s.focus, "");
+    o.push(`| ${L==="es"?"Hora":"Time"} | ${L==="es"?"Bloque":"Block"} | ${T.min} |`, "|---|---|---|");
+    s.rows.forEach(r => o.push(r.kind === "break"
+      ? `| ${hm(r.start)} | ${T.breakLabel} | ${r.minutes} |`
+      : `| ${hm(r.start)} | [${r.title}](${r.url})${r.partial ? " _("+T.partial+")_" : ""} | ${r.minutes} |`));
+    o.push("");
+    if(s.checkpoint) o.push(`**✓ ${s.checkpoint}**`, "");
+    if(s.tips && s.tips.length){ o.push(`### ${T.tips}`, ""); s.tips.forEach(t => o.push(`- ${t}`)); o.push(""); }
+  });
+  if(plan.risks.length){ o.push(`## ${T.risks}`, ""); plan.risks.forEach(r => o.push(`- ${r}`)); o.push(""); }
+  return o.join("\n");
+}
+
+const slug = () => (plan.title || "workshop").toLowerCase().normalize("NFD")
+  .replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,48) || "workshop";
+
+async function download(filename, text, mime){
+  const toast = $("#toast");
+  /* si corre dentro de un artifact de Claude, usar su API; si no, blob normal */
+  try{
+    if(window.claude && window.claude.use){
+      const dl = await window.claude.use("downloads");
+      if(dl){ await dl.save({filename, data:text}); if(toast) toast.textContent = T.saved; return; }
+    }
+  }catch(e){
+    if(e && e.code === "declined") return;
+  }
+  try{
+    const blob = new Blob([text], {type:mime});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = filename; a.style.display = "none";
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1500);
+    if(toast) toast.textContent = T.saved;
+  }catch(e){
+    openText(filename, text);
+  }
+}
+
+function openText(title, body){
+  $("#txtTitle").textContent = title;
+  $("#txtBody").value = body;
+  $("#txtCopy").textContent = T.copy;
+  $("#txtClose").textContent = T.close;
+  $("#txtDlg").showModal();
+}
+
+async function copyAll(text){
+  const toast = $("#toast");
+  try{ await navigator.clipboard.writeText(text); if(toast) toast.textContent = T.copied; }
+  catch(e){ openText(T.expCopy, text); if(toast) toast.textContent = T.copyFail; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   10 · RENDER
+   ═══════════════════════════════════════════════════════════ */
+function answerLabel(qi){
+  const q = T.q[qi], v = A[q.k];
+  if(q.tiles) return A.tracks.map(t => TRACKS[t].em + " " + TRACKS[t][L]).concat(A.ideas.map(i => "\u270e " + i)).join("  ");
+  if(q.date){ if(!v) return ""; const d = new Date(v); return `${dateLong(d)}, ${hm(d)}`; }
+  if(q.text) return v || q.skip;
+  const hit = (q.o || []).find(o => o[0] === v);
+  return hit ? hit[1] : "";
+}
+
+function renderLeft(){
+  const host = $("#left"); host.innerHTML = "";
+  const stack = el("div","qstack");
+
+  for(let i = 0; i <= step && i < T.q.length; i++){
+    const q = T.q[i];
+
+    if(i < step){
+      const d = el("div","q done");
+      d.appendChild(el("p","qt", q.q));
+      d.appendChild(el("div","ans", answerLabel(i)));
+      d.appendChild(el("span","pencil","✎"));
+      d.onclick = () => { step = i; plan = null; phase = "intake"; render(); };
+      stack.appendChild(d);
+      continue;
+    }
+    if(phase !== "intake") continue;
+
+    const card = el("div","q");
+    card.appendChild(el("p","qt", q.q));
+    if(q.h) card.appendChild(el("p","qh", q.h));
+
+    if(q.tiles){
+      const g = el("div","tiles");
+      Object.keys(TRACKS).forEach(k => {
+        const b = el("button","tile");
+        b.dataset.k = k;
+        b.setAttribute("aria-pressed", A.tracks.includes(k) ? "true" : "false");
+        b.appendChild(el("span","em", TRACKS[k].em));
+        b.appendChild(el("span","nm", TRACKS[k][L]));
+        const ct = trackCount(k);
+        b.appendChild(el("span","ct", ct === 1 ? "1 codelab" : ct + " codelabs"));
+        b.onclick = () => {
+          const ix = A.tracks.indexOf(k);
+          if(ix >= 0) A.tracks.splice(ix,1); else A.tracks.push(k);
+          render();
+        };
+        g.appendChild(b);
+      });
+      card.appendChild(g);
+
+      /* tema escrito a mano */
+      card.appendChild(el("div","orline", T.orWrite));
+      const ib = el("div","ideain");
+      const ii = el("input","inp");
+      ii.type = "text"; ii.placeholder = T.ideaPh; ii.autocomplete = "off";
+      const addIdea = () => {
+        const v = ii.value.trim().replace(/\s+/g," ");
+        if(!v) return;
+        if(!A.ideas.some(x => x.toLowerCase() === v.toLowerCase())) A.ideas.push(v);
+        ii.value = "";
+        render();
+        const again = document.querySelector("#left .q:not(.done) .ideain .inp");
+        if(again) again.focus();
+      };
+      const addBtn = el("button","btn out", T.addIdea);
+      addBtn.onclick = addIdea;
+      ii.onkeydown = e => { if(e.key === "Enter"){ e.preventDefault(); addIdea(); } };
+      ib.append(ii, addBtn);
+      card.appendChild(ib);
+
+      if(A.ideas.length){
+        const ch = el("div","ichips");
+        let anyZero = false;
+        A.ideas.forEach(v => {
+          const n = ideaMatchCount(v);
+          if(!n) anyZero = true;
+          const c = el("span", n ? "ichip" : "ichip zero");
+          c.appendChild(el("span", null, v));
+          c.appendChild(el("span","n", n ? String(n) : T.ideaNone));
+          const x = el("button", null, "\u2715");
+          x.title = L === "es" ? "Quitar" : "Remove";
+          x.onclick = () => { A.ideas = A.ideas.filter(i => i !== v); render(); };
+          c.appendChild(x);
+          ch.appendChild(c);
+        });
+        card.appendChild(ch);
+        if(anyZero){
+          const h = el("p","qh", T.ideaNoneHint);
+          h.style.margin = "10px 0 0";
+          card.appendChild(h);
+        }
+      }
+
+      const r = el("div","row");
+      const go = el("button","btn", T.cont);
+      go.disabled = !A.tracks.length && !A.ideas.length;
+      go.onclick = () => { step++; render(); };
+      r.appendChild(go); card.appendChild(r);
+
+    }else if(q.date){
+      const r = el("div","row");
+      const inp = el("input","inp"); inp.type = "datetime-local"; inp.style.maxWidth = "260px";
+      const d = new Date(); d.setDate(d.getDate() + 14); d.setHours(18,30,0,0);
+      inp.value = A.when || `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T18:30`;
+      const go = el("button","btn", T.done);
+      go.onclick = () => { A.when = inp.value; step++; render(); };
+      r.append(inp, go); card.appendChild(r);
+
+    }else if(q.text){
+      const ta = el("textarea","inp"); ta.placeholder = T.optional; ta.value = A.notes;
+      card.appendChild(ta);
+      const r = el("div","row");
+      const go = el("button","btn", T.next);
+      go.onclick = () => { A.notes = ta.value.trim(); step++; generate(); };
+      const sk = el("button","btn out", q.skip);
+      sk.onclick = () => { A.notes = ""; step++; generate(); };
+      r.append(go, sk); card.appendChild(r);
+
+    }else{
+      const g = el("div","pills");
+      q.o.forEach(([val,label]) => {
+        const b = el("button","pill", label);
+        b.setAttribute("aria-pressed", A[q.k] === val ? "true" : "false");
+        b.onclick = () => { A[q.k] = val; step++; render(); };
+        g.appendChild(b);
+      });
+      card.appendChild(g);
+    }
+    stack.appendChild(card);
+  }
+  host.appendChild(stack);
+}
+
+function signalPanel(){
+  const c = el("div","card");
+  c.appendChild(el("p","sec-eyebrow", T.panelEyebrow));
+  c.appendChild(el("h2","sec", T.panelTitle));
+  const sig = el("div","sig");
+  const add = (k, txt) => {
+    const r = el("div","sig-row");
+    r.appendChild(el("div","sig-k", k));
+    r.appendChild(el("div", txt ? "sig-v" : "sig-v off", txt || T.off));
+    sig.appendChild(r);
+  };
+  add(T.kLevel,  A.level  ? T.levels[A.level]   : "");
+  add(T.kTracks, A.tracks.length ? A.tracks.map(t => TRACKS[t].em).join(" ") + "  " + A.tracks.map(t => TRACKS[t][L]).join(", ") : "");
+  if(A.ideas.length) add(T.kIdeas, A.ideas.join(", "));
+  add(T.kFormat, A.format ? T.formats[A.format] : "");
+  add(T.kSetup,  A.setup  ? T.setups[A.setup]   : "");
+  add(T.kGoal,   A.goal   ? T.goals[A.goal]     : "");
+  add(T.kWhen,   A.when   ? answerLabel(5)      : "");
+  c.appendChild(sig);
+
+  const n = (A.tracks.length || A.ideas.length) ? matches().length : 0;
+  const box = el("div","count");
+  box.appendChild(el("b", null, String(n)));
+  box.appendChild(el("span", n === 1 ? T.count1 : T.count));
+  c.appendChild(box);
+  return c;
+}
+
+function runSheet(){
+  const f = document.createDocumentFragment();
+  const wrap = el("div","sheet");
+  wrap.appendChild(el("h2", null, plan.title));
+  if(plan.pitch) wrap.appendChild(el("p","pitch", plan.pitch));
+
+  schedule().forEach(s => {
+    const sc = el("div","sess");
+    const top = el("div","sess-top");
+    top.appendChild(el("h3", null, s.name));
+    top.appendChild(el("span","sess-when", `${dateLong(s.start)} · ${hm(s.start)}–${hm(s.end)}`));
+    sc.appendChild(top);
+    if(s.focus) sc.appendChild(el("p","sess-focus", s.focus));
+
+    s.rows.forEach(r => {
+      const b = el("div", r.kind === "break" ? "blk brk" : "blk");
+      b.appendChild(el("div","t", hm(r.start)));
+      const body = el("div","body");
+      const h = el("h4");
+      if(r.kind === "break"){
+        h.textContent = `${T.breakLabel} · ${r.minutes} ${T.min}`;
+      }else{
+        const a = el("a", null, r.title);
+        a.href = r.url; a.target = "_blank"; a.rel = "noopener";
+        h.appendChild(a);
+      }
+      body.appendChild(h);
+      if(r.why) body.appendChild(el("p","why", r.why));
+      if(r.kind === "lab"){
+        const tg = el("div","tags");
+        tg.appendChild(el("span","tag dur", `${r.minutes} ${T.min}`));
+        tg.appendChild(el("span","tag " + r.track, TRACKS[r.track][L]));
+        if(r.partial) tg.appendChild(el("span","tag part", T.partial));
+        const rm = el("button","rm","✕");
+        rm.title = L === "es" ? "Quitar y regenerar" : "Remove and rebuild";
+        rm.onclick = () => { dropped.add(r.id); generate(); };
+        tg.appendChild(rm);
+        body.appendChild(tg);
+      }
+      b.appendChild(body);
+      sc.appendChild(b);
+    });
+
+    if(s.checkpoint) sc.appendChild(el("div","check", "✓ " + s.checkpoint));
+    if(s.tips && s.tips.length){
+      const t = el("div","tips");
+      t.appendChild(el("b", null, T.tips));
+      const ul = el("ul"); s.tips.forEach(x => ul.appendChild(el("li", null, x)));
+      t.appendChild(ul); sc.appendChild(t);
+    }
+    wrap.appendChild(sc);
+  });
+
+  if(plan.prereqs.length || plan.risks.length){
+    const n = el("div","card plain notes");
+    if(plan.prereqs.length){
+      n.appendChild(el("h4", null, T.prereq));
+      const ul = el("ul"); plan.prereqs.forEach(x => ul.appendChild(el("li", null, x))); n.appendChild(ul);
+    }
+    if(plan.risks.length){
+      n.appendChild(el("h4", null, T.risks));
+      const ul = el("ul"); plan.risks.forEach(x => ul.appendChild(el("li", null, x))); n.appendChild(ul);
+    }
+    n.style.marginBottom = "14px";
+    wrap.appendChild(n);
+  }
+
+  const ex = el("div","card");
+  ex.appendChild(el("p","sec-eyebrow", T.expEyebrow));
+  ex.appendChild(el("h2","sec", T.expTitle));
+  const g = el("div","exp-grid");
+
+  const b1 = el("button","btn", T.expIcs);
+  b1.onclick = () => download(`${slug()}.ics`, toIcs(), "text/calendar;charset=utf-8");
+  const b2 = el("button","btn out", T.expGcal);
+  b2.onclick = () => { schedule().forEach(s => window.open(gcalUrl(s), "_blank", "noopener")); $("#toast").textContent = T.gcalNote; };
+  const b3 = el("button","btn out", T.expMd);
+  b3.onclick = () => download(`${slug()}.md`, toMarkdown(), "text/markdown;charset=utf-8");
+  const b4 = el("button","btn out", T.expCopy);
+  b4.onclick = () => copyAll(toMarkdown());
+
+  g.append(b1, b2, b3, b4);
+  ex.appendChild(g);
+  const t = el("div","toast"); t.id = "toast"; t.setAttribute("role","status");
+  ex.appendChild(t);
+  const src = {rules:T.srcRules, gemini:T.srcGemini, proxy:T.srcProxy, claude:T.srcClaude}[plan.source] || T.srcRules;
+  ex.appendChild(el("p","badge", src));
+  wrap.appendChild(ex);
+
+  f.appendChild(wrap);
+  return f;
+}
+
+function renderRight(){
+  const host = $("#right"); host.innerHTML = "";
+
+  if(phase === "building"){
+    const b = el("div","load");
+    b.appendChild(el("div","spin"));
+    const s = el("div", null, T.phases[0]); s.id = "phaseTxt";
+    b.appendChild(s);
+    host.appendChild(b);
+    return;
+  }
+  if(phase === "intake"){
+    host.appendChild(signalPanel());
+    const e = el("div","empty");
+    e.appendChild(el("span","em","🗓️"));
+    e.appendChild(el("div", null, T.emptyTitle));
+    const p = el("div", null, T.emptyBody); p.style.marginTop = "6px"; p.style.fontSize = "14px";
+    e.appendChild(p);
+    e.style.marginTop = "18px";
+    host.appendChild(e);
+    return;
+  }
+  if(phase === "aifail"){
+    const a = el("div","alert");
+    a.appendChild(el("b", null, T.aiFailTitle));
+    a.appendChild(el("div", null, T.aiFailBody));
+    if(lastErr){ const c = el("div"); c.style.marginTop = "6px";
+      const code = el("code", null, String(lastErr).slice(0,160)); c.appendChild(code); a.appendChild(c); }
+    host.appendChild(a);
+  }
+  if(plan) host.appendChild(runSheet());
+}
+
+function renderChrome(){
+  $("#eyebrow").textContent = T.eyebrow;
+  $("#h1").textContent = T.h1;
+  $("#heroP").textContent = T.heroP;
+  $("#foot").textContent = T.foot;
+  $("#langBtn").textContent = L === "es" ? "EN" : "ES";
+  $("#cfgLbl").textContent = T.ai;
+  $("#resetBtn").textContent = T.reset;
+  $("#cfgBtn").classList.toggle("on", !!(CFG.key || CFG.endpoint));
+
+  const st = $("#stats"); st.innerHTML = "";
+  const mk = (b, s) => { const d = el("span","stat"); d.appendChild(el("b", null, b)); d.appendChild(el("span", null, s)); return d; };
+  st.append(mk(String(CATALOG.length), T.statA), mk("2 h", T.statB), mk("45 min", T.statC));
+}
+
+function render(){
+  T = STR[L];
+  document.documentElement.lang = L;
+  renderChrome();
+  renderLeft();
+  renderRight();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   11 · SETTINGS
+   ═══════════════════════════════════════════════════════════ */
+function fillCfgDialog(){
+  $("#cfgTitle").textContent = T.cfgTitle;
+  $("#cfgDesc").textContent  = T.cfgDesc;
+  $("#lblProvider").textContent = T.lblProvider;
+  $("#lblKey").textContent   = T.lblKey;   $("#hintKey").textContent   = T.hintKey;
+  $("#lblModel").textContent = T.lblModel; $("#hintModel").textContent = T.hintModel;
+  $("#lblEp").textContent    = T.lblEp;    $("#hintEp").textContent    = T.hintEp;
+  $("#cfgTest").textContent  = T.cfgTest;  $("#cfgSave").textContent   = T.cfgSave;
+  $("#cfgStatus").textContent = ""; $("#cfgStatus").className = "status";
+
+  const sel = $("#cfgProvider"); sel.innerHTML = "";
+  [["auto",T.provAuto],["gemini",T.provGemini],["proxy",T.provProxy],["none",T.provNone]].forEach(([v,l]) => {
+    const o = document.createElement("option"); o.value = v; o.textContent = l; sel.appendChild(o);
+  });
+  sel.value = CFG.provider;
+  $("#cfgKey").value = CFG.key;
+  $("#cfgModel").value = CFG.model;
+  $("#cfgEp").value = CFG.endpoint;
+  syncCfgFields();
+}
+function syncCfgFields(){
+  const p = $("#cfgProvider").value;
+  $("#fldKey").style.display   = (p === "gemini" || p === "auto") ? "" : "none";
+  $("#fldModel").style.display = (p === "gemini" || p === "auto") ? "" : "none";
+  $("#fldEp").style.display    = (p === "proxy"  || p === "auto") ? "" : "none";
+}
+function readCfgDialog(){
+  CFG.provider = $("#cfgProvider").value;
+  CFG.key      = $("#cfgKey").value.trim();
+  CFG.model    = $("#cfgModel").value.trim() || "gemini-3.6-flash";
+  CFG.endpoint = $("#cfgEp").value.trim();
+}
+
+async function testConnection(){
+  readCfgDialog();
+  const s = $("#cfgStatus");
+  s.className = "status"; s.textContent = T.testing;
+  const probe = 'Reply with only this JSON and nothing else: {"ok":true}';
+  try{
+    const p = await pickProvider();
+    if(p.kind === "none"){
+      s.className = "status"; s.textContent = p.reason ? T[p.reason] : T.testNone; return;
+    }
+    let raw;
+    if(p.kind === "claude")      raw = JSON.stringify(await p.fn.json(probe, {modelTier:"quick", cache:false}));
+    else if(p.kind === "gemini") raw = await callGemini(probe, CFG.model, CFG.key);
+    else                         raw = await callProxy(probe, CFG.endpoint);
+    parseLoose(raw);
+    s.className = "status ok"; s.textContent = `${T.testOk} (${p.kind})`;
+  }catch(e){
+    s.className = "status bad";
+    s.textContent = T.testBad + String((e && e.message) || e).slice(0,220);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   12 · WIRING
+   ═══════════════════════════════════════════════════════════ */
+$("#langBtn").onclick = () => {
+  L = L === "es" ? "en" : "es";
+  localStorage.setItem("cc.lang", L);
+  if(plan && plan.source === "rules") plan = localPlan();
+  render();
+};
+$("#resetBtn").onclick = () => {
+  Object.assign(A, {level:null, tracks:[], ideas:[], format:null, setup:null, goal:null, when:null, notes:""});
+  step = 0; plan = null; dropped = new Set(); phase = "intake"; lastErr = "";
+  render(); window.scrollTo({top:0});
+};
+$("#cfgBtn").onclick = () => { fillCfgDialog(); $("#cfgDlg").showModal(); };
+$("#cfgProvider").onchange = syncCfgFields;
+$("#cfgTest").onclick = testConnection;
+$("#cfgSave").onclick = () => { readCfgDialog(); saveCfg(); $("#cfgDlg").close(); renderChrome(); };
+$("#txtClose").onclick = () => $("#txtDlg").close();
+$("#txtCopy").onclick = async () => {
+  const ta = $("#txtBody");
+  try{ await navigator.clipboard.writeText(ta.value); $("#txtCopy").textContent = "✓"; }
+  catch(e){ ta.removeAttribute("readonly"); ta.select(); }
+};
+
+render();
+</script>
+</body>
+</html>
